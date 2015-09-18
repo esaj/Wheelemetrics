@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/graphview"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:weightSum="1.0"
+    >
+
+    <com.jjoe64.graphview.helper.GraphViewXML xmlns:app="http://schemas.android.com/apk/res-auto"
+                                              android:id="@+id/graph"
+                                              android:layout_width="match_parent"
+                                              android:layout_height="110dip"
+                                              app:seriesData="0=0; 1=0"
+                                              app:seriesType="line"
+                                              app:seriesColor="#000000"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/checkbox_chart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="@string/enablechart"
+            android:checked="true"
+            android:textColor="#FF00FF00"/>
+
+        <CheckBox
+            android:id="@+id/checkbox_scroll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="@string/scrolltoend"
+            android:checked="true"
+            android:textColor="#FF00FF00"/>
+
+        <Button
+            android:id="@+id/button_cleargraph"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="@string/cleargraph"
+            android:textColor="#FF00FF00"
+            android:background="#353535"/>
+
+        <Spinner
+            android:id="@+id/graph_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#FF535353"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edit_text_out"
+            android:layout_width="240dip"
+            android:layout_height="wrap_content"
+            android:background="#FF525252"
+            android:textColor="#FF00FF00"/>
+
+        <Button
+            android:id="@+id/button_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/send" />
+
+    </LinearLayout>
+</LinearLayout>

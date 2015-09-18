@@ -1,0 +1,185 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity"
+    android:background="#FF000000" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="0.95">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        style="@style/Widget.LargeMessage"
+                        android:id="@+id/speed"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="SPEED" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_gravity="right">
+
+                    <TextView
+                        style="@style/Widget.LargeMessage"
+                        android:id="@+id/power"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="POWER"
+                        android:gravity="end"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+           <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <TextView
+                    style="@style/Widget.SampleMessage"
+                    android:id="@+id/voltage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="VOLTAGE"
+                    android:layout_gravity="left"/>
+
+                <TextView
+                    style="@style/Widget.SampleMessage"
+                    android:id="@+id/current"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CURRENT"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"/>
+                <TextView
+                    style="@style/Widget.SampleMessage"
+                    android:id="@+id/mbtemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TEMPERATURE"
+                    android:layout_gravity="right"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                        style="@style/Widget.SampleMessage"
+                        android:id="@+id/trip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TRIP"
+                        android:layout_gravity="left"/>
+
+                <TextView
+                    style="@style/Widget.SampleMessage"
+                    android:id="@+id/inclination"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    />
+
+                <TextView
+                    style="@style/Widget.SampleMessage"
+                    android:id="@+id/odo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ODO"
+                    android:layout_gravity="right"/>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/warnings_fragment"
+                android:layout_weight="2"
+                android:layout_width="wrap_content"
+                android:layout_height="0px" />
+
+            <FrameLayout
+                android:id="@+id/main_fragment"
+                android:layout_weight="2"
+                android:layout_width="wrap_content"
+                android:layout_height="0px" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="0.05">
+
+            <Button
+                android:id="@+id/button_connect"
+                android:layout_width="70dp"
+                android:layout_height="70dip"
+                android:layout_marginBottom="5dip"
+                android:text="@string/connect_button"
+                android:textColor="#ffff00"
+                android:background="#353535"/>
+
+            <Button
+                android:id="@+id/button_warnings"
+                android:layout_width="70dp"
+                android:layout_height="70dip"
+                android:layout_marginBottom="5dip"
+                android:text="@string/warnings_button"
+                android:textColor="#ffff00"
+                android:background="#353535"/>
+
+            <Button
+                android:id="@+id/button_graph"
+                android:layout_width="70dip"
+                android:layout_height="70dip"
+                android:layout_marginBottom="5dip"
+                android:text="@string/graph_button"
+                android:textColor="#ffff00"
+                android:background="#353535"/>
+
+            <Button
+                android:id="@+id/record"
+                android:layout_width="70dip"
+                android:layout_height="70dip"
+                android:layout_marginBottom="5dip"
+                android:text="@string/record"
+                android:textColor="#ffff00"
+                android:background="#353535"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
