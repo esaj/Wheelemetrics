@@ -29,19 +29,20 @@ public class ProtocolDataRelay
 
     private DataHandler dataHandler;
     private LoggableDataPublisherCallback callback;
+    private volatile Thread thread;
 
     public ProtocolDataRelay(ProtocolCodec codec, LoggableDataPublisherCallback callback) throws IOException
     {
         dataHandler = new DataHandler(codec);
         this.callback = callback;
-        Thread t = new Thread(dataHandler, "DataFeeder.DataHandler");
-        t.start();
+        thread = new Thread(dataHandler, "DataFeeder.DataHandler");
+        thread.start();
     }
 
     /**
      * Internal class that handles passing the data to decoding as it arrives
      */
-    private class DataHandler implements Runnable
+    class DataHandler implements Runnable
     {
         private final int PIPESIZE = 128;
 
@@ -72,8 +73,8 @@ public class ProtocolDataRelay
             if(!running)
             {
                 Log.w(TAG, "Thread not running, restarting");
-                Thread t = new Thread(ProtocolDataRelay.this.dataHandler, "DataFeeder.DataHandler");
-                t.start();
+                thread = new Thread(ProtocolDataRelay.this.dataHandler, "DataFeeder.DataHandler");
+                thread.start();
                 ThreadUtils.sleepIgnoringInterrupt(50);
             }
 
