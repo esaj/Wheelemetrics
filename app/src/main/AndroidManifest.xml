@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.github.gadgetfactory.wheelemetrics.ui.activities.MainActivity"
+            android:name="com.github.esaj.wheelemetrics.ui.activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:screenOrientation="sensorLandscape"
@@ -34,19 +34,19 @@
             android:theme="@android:style/Theme.Holo.Dialog" />
 
         <service
-            android:name="com.github.gadgetfactory.wheelemetrics.warning.WarningVibratorService"
+            android:name="com.github.esaj.wheelemetrics.warning.WarningVibratorService"
             android:exported="false"/>
 
-        <service android:name="com.github.gadgetfactory.wheelemetrics.bluetooth.BluetoothService"
+        <service android:name="com.github.esaj.wheelemetrics.bluetooth.BluetoothService"
                  android:exported="false"/>
 
-        <service android:name="com.github.gadgetfactory.wheelemetrics.data.record.TelemetryFileServiceImpl"
+        <service android:name="com.github.esaj.wheelemetrics.data.record.TelemetryFileServiceImpl"
                  android:exported="false"/>
 
-        <receiver android:name="com.github.gadgetfactory.wheelemetrics.warning.SpeedDataReceiver"
+        <receiver android:name="com.github.esaj.wheelemetrics.warning.SpeedDataReceiver"
                   android:exported="false"/>
 
-        <receiver android:name="com.github.gadgetfactory.wheelemetrics.bluetooth.LoggableDataReceiver"
+        <receiver android:name="com.github.esaj.wheelemetrics.bluetooth.LoggableDataReceiver"
                   android:exported="false"/>
 
     </application>

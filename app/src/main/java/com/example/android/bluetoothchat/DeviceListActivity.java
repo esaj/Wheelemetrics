@@ -34,7 +34,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.github.gadgetfactory.wheelemetrics.bluetooth.Constants;
+import com.github.esaj.wheelemetrics.bluetooth.Constants;
 
 import java.util.Set;
 

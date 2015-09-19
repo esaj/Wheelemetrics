@@ -20,7 +20,7 @@
             android:layout_weight="1"
             />
 
-        <view class="com.github.gadgetfactory.wheelemetrics.ui.misc.WarningSpeedNumberPicker"
+        <view class="com.github.esaj.wheelemetrics.ui.misc.WarningSpeedNumberPicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/warning1_picker"/>
@@ -33,7 +33,7 @@
             android:layout_weight="1"
             />
 
-        <view class="com.github.gadgetfactory.wheelemetrics.ui.misc.WarningSpeedNumberPicker"
+        <view class="com.github.esaj.wheelemetrics.ui.misc.WarningSpeedNumberPicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/warning2_picker"/>
