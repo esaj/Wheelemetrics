@@ -98,6 +98,7 @@ public class ProtocolDataRelay
         @Override
         public void run()
         {
+            running = true;
             while(running)
             {
                 try

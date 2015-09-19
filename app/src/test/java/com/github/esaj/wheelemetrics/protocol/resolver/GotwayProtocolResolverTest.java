@@ -1,5 +1,7 @@
 package com.github.esaj.wheelemetrics.protocol.resolver;
 
+import com.github.esaj.wheelemetrics.protocol.codec.GotwayProtocolCodec;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +18,25 @@ public class GotwayProtocolResolverTest
     {
         resolver = new GotwayProtocolResolver();
     }
+
+    @Test
+    public void testGetRequiredBytes()
+    {
+        Assert.assertEquals("Please document your changes if this is altered in implementation", 48 * 2 - 1, resolver.getRequiredMinimumBytes());
+    }
+
+    @Test
+    public void testWheelName()
+    {
+        Assert.assertEquals("Gotway", resolver.getWheelName());
+    }
+
+    @Test
+    public void testGetProtocolCodec()
+    {
+        Assert.assertTrue(resolver.getProtocolCodec() instanceof GotwayProtocolCodec);
+    }
+
 
     @Test
     public void testMatching()

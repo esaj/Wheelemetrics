@@ -2,6 +2,7 @@ package com.github.esaj.wheelemetrics.protocol.codec;
 
 import com.github.esaj.wheelemetrics.data.GotwayKingSongLoggableData;
 import com.github.esaj.wheelemetrics.data.LoggableData;
+import com.github.esaj.wheelemetrics.utils.BinaryUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -80,17 +81,17 @@ public class GotwayProtocolCodec implements ProtocolCodec
             data[i] = (byte)dataStream.read();
         }
 
-        lastKnownOdo = (((data[0] & 0xFF) << 24) | ((data[1] & 0xFF) << 16) | ((data[2] & 0xFF) << 8) | (data[3] & 0xFF));
+        lastKnownOdo = BinaryUtils.intFrom32bitBE(data, 0);
 
         return new GotwayKingSongLoggableData(lastKnownVoltage, lastKnownSpeed, lastKnownRunNow, lastKnownCurrent, lastKnownTemp, lastKnownOdo);
     }
 
     private void readData(byte[] data)
     {
-        lastKnownVoltage = ((data[0] & 0xFF) << 8) + (data[1] & 0xFF);
-        lastKnownSpeed = (short)(((data[2] & 0xFF) << 8) + (data[3] & 0xFF));
-        lastKnownRunNow = ((data[4] & 0xFF) << 24) | ((data[5] & 0xFF) << 16) | ((data[6] & 0xFF) << 8) | (data[7] & 0xFF);
-        lastKnownCurrent = (short)((data[8] & 0xFF) << 8) + (data[9] & 0xFF);
-        lastKnownTemp = (short)((data[10] & 0xFF) << 8) + (data[11] & 0xFF);
+        lastKnownVoltage = BinaryUtils.shortFrom16bitBE(data, 0);
+        lastKnownSpeed = BinaryUtils.shortFrom16bitBE(data, 2);
+        lastKnownRunNow = BinaryUtils.intFrom32bitBE(data, 4);
+        lastKnownCurrent = BinaryUtils.shortFrom16bitBE(data, 8);
+        lastKnownTemp = BinaryUtils.shortFrom16bitBE(data, 10);
     }
 }

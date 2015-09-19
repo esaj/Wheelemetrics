@@ -10,7 +10,8 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- *
+ * Thread handling asynchronous writing to file via ConcurrentLinkedQueue
+ * @author esaj
  */
 public class WriteThread extends Thread
 {

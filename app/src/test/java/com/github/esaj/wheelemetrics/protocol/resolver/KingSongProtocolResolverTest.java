@@ -1,5 +1,7 @@
 package com.github.esaj.wheelemetrics.protocol.resolver;
 
+import com.github.esaj.wheelemetrics.protocol.codec.KingSongProtocolCodec;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +18,26 @@ public class KingSongProtocolResolverTest
     {
         resolver = new KingSongProtocolResolver();
     }
+
+
+    @Test
+    public void testGetRequiredBytes()
+    {
+        Assert.assertEquals("Please document your changes if this is altered in implementation", 24 * 2 - 1, resolver.getRequiredMinimumBytes());
+    }
+
+    @Test
+    public void testWheelName()
+    {
+        Assert.assertEquals("King Song", resolver.getWheelName());
+    }
+
+    @Test
+    public void testGetProtocolCodec()
+    {
+        Assert.assertTrue(resolver.getProtocolCodec() instanceof KingSongProtocolCodec);
+    }
+
 
     @Test
     public void testGotwayMatch()
