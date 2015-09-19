@@ -1,1 +1,5 @@
 /build
+
+*.apk
+*.ap_
+*.iml

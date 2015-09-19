@@ -2,11 +2,23 @@ package com.github.gadgetfactory.wheelemetrics.data;
 
 import com.github.gadgetfactory.wheelemetrics.utils.StringUtils;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 /**
  * @author esaj
  */
 public class GotwayKingSongLoggableData extends  AbstractCSVLoggableData
 {
+    private static final NumberFormat twodigitFormat = NumberFormat.getInstance(Locale.US);
+    static
+    {
+        twodigitFormat.setMaximumFractionDigits(2);
+        twodigitFormat.setMinimumFractionDigits(2);
+        twodigitFormat.setGroupingUsed(false);
+    }
+
+
     public GotwayKingSongLoggableData(int voltage, int speed, int trip, int current, int temperature, int odo)
     {
         super();
@@ -119,7 +131,7 @@ public class GotwayKingSongLoggableData extends  AbstractCSVLoggableData
 
     public String getTemperatureString()
     {
-        return StringUtils.getStringFromFixedPoint((int)(temperature / 340.0D + 36.53D), 3);
+        return twodigitFormat.format(temperature / 340.0D + 36.53D);
     }
 
 

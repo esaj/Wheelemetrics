@@ -2,6 +2,7 @@ package com.github.gadgetfactory.wheelemetrics.protocol;
 
 import com.github.gadgetfactory.wheelemetrics.protocol.codec.ProtocolDataRelay;
 import com.github.gadgetfactory.wheelemetrics.protocol.resolver.GotwayProtocolResolver;
+import com.github.gadgetfactory.wheelemetrics.protocol.resolver.KingSongProtocolResolver;
 import com.github.gadgetfactory.wheelemetrics.protocol.resolver.ProtocolResolver;
 import com.github.gadgetfactory.wheelemetrics.utils.BinaryUtils;
 
@@ -17,7 +18,8 @@ public class ProtocolAutodetectionLogic
 {
     private static ProtocolResolver[] resolvers = new ProtocolResolver[]
             {
-                    new GotwayProtocolResolver()
+                    new GotwayProtocolResolver(),
+                    new KingSongProtocolResolver()
             };
 
     public ProtocolDataRelay autodetectProtocol(InputStream in, LoggableDataPublisherCallback callback) throws IOException

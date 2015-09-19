@@ -46,6 +46,9 @@
         <receiver android:name="com.github.gadgetfactory.wheelemetrics.warning.SpeedDataReceiver"
                   android:exported="false"/>
 
+        <receiver android:name="com.github.gadgetfactory.wheelemetrics.bluetooth.LoggableDataReceiver"
+                  android:exported="false"/>
+
     </application>
 
 </manifest>

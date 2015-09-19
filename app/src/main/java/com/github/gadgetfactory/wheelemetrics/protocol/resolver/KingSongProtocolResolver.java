@@ -1,41 +1,37 @@
 package com.github.gadgetfactory.wheelemetrics.protocol.resolver;
 
-import com.github.gadgetfactory.wheelemetrics.protocol.codec.GotwayProtocolCodec;
+import com.github.gadgetfactory.wheelemetrics.protocol.codec.KingSongProtocolCodec;
 import com.github.gadgetfactory.wheelemetrics.protocol.codec.ProtocolCodec;
 import com.github.gadgetfactory.wheelemetrics.utils.BinaryUtils;
 
 /**
+ * ProtocolResolver for KingSong
+ *
  * @author esaj
  */
-public class GotwayProtocolResolver implements com.github.gadgetfactory.wheelemetrics.protocol.resolver.ProtocolResolver
+public class KingSongProtocolResolver implements ProtocolResolver
 {
     @Override
     public int getRequiredMinimumBytes()
     {
-        return 48*2-1;
+        return 24*2-1;
     }
 
     @Override
     public double match(byte[] data)
     {
-        //Scan for tags
-        int msgTagIndex = BinaryUtils.firstIndexOf(data, GotwayProtocolCodec.MSG_TAG, 0);
+        //Scan for tag
+        int msgTagIndex = BinaryUtils.firstIndexOf(data, KingSongProtocolCodec.MSG_TAG, 0);
         if(msgTagIndex < 0)
         {
             return 0;
         }
 
-        int odoTagIndex = BinaryUtils.firstIndexOf(data, GotwayProtocolCodec.ODO_TAG, 0);
-        if(odoTagIndex < 0)
-        {
-            return 0;
-        }
-
-        //Tags found, check for proper data
-        double match = 0.3;
+        //Tag found, check for proper data
+        double match = 0.5;
 
         //Voltage should be found in 2 bytes right after msg-tag within range 40...75V (accounting for very empty batteries or overvolted ;))
-        int index = msgTagIndex + GotwayProtocolCodec.MSG_TAG.length;
+        int index = msgTagIndex + KingSongProtocolCodec.MSG_TAG.length;
         int value = BinaryUtils.shortFrom16bitBE(data, index);
         if(BinaryUtils.isInRange(value, 4000, 7500))
         {
@@ -74,13 +70,6 @@ public class GotwayProtocolResolver implements com.github.gadgetfactory.wheeleme
             match += 0.1;
         }
 
-        //Odo should be found after the odo-tag, let's assume no one has ridden over 100000km
-        index = odoTagIndex + GotwayProtocolCodec.ODO_TAG.length;
-        value = BinaryUtils.intFrom32bitBE(data, index);
-        if(BinaryUtils.isInRange(value, 0, 1000000))
-        {
-            match += 0.2;
-        }
 
         //If everything matches, match should be 1.0 here
         return match;
@@ -89,12 +78,12 @@ public class GotwayProtocolResolver implements com.github.gadgetfactory.wheeleme
     @Override
     public ProtocolCodec getProtocolCodec()
     {
-        return new GotwayProtocolCodec();
+        return new KingSongProtocolCodec();
     }
 
     @Override
     public String getWheelName()
     {
-        return "Gotway";
+        return "King Song";
     }
 }
