@@ -16,16 +16,16 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.example.android.bluetoothchat.DeviceListActivity;
-
-import com.github.esaj.wheelemetrics.ui.fragments.MainFragment;
 import com.github.esaj.wheelemetrics.Preferences;
-import test.ej.wheelemetricsproto.R;
-import com.github.esaj.wheelemetrics.ui.fragments.WarningSettingsFragment;
 import com.github.esaj.wheelemetrics.bluetooth.BluetoothService;
 import com.github.esaj.wheelemetrics.data.record.TelemetryFileService;
 import com.github.esaj.wheelemetrics.data.record.TelemetryFileServiceImpl;
+import com.github.esaj.wheelemetrics.ui.fragments.MainFragment;
+import com.github.esaj.wheelemetrics.ui.fragments.WarningSettingsFragment;
 import com.github.esaj.wheelemetrics.ui.misc.RecordButtonClickListener;
 import com.github.esaj.wheelemetrics.warning.WarningVibratorService;
+
+import test.ej.wheelemetricsproto.R;
 
 /**
  * @author esaj
@@ -82,18 +82,16 @@ public class MainActivity extends FragmentActivity
                         transaction.remove(warningSettingsFragment);
                         transaction.commit();
 
-                        unbindService(telemetryFileServiceConnection);
-
                         Intent stopBtIntent = new Intent(MainActivity.this, BluetoothService.class);
                         stopService(stopBtIntent);
 
                         Intent stopVibrationIntent = new Intent(MainActivity.this, WarningVibratorService.class);
                         stopService(stopVibrationIntent);
 
+                        unbindService(telemetryFileServiceConnection);
                         Intent stopTeleFileIntent = new Intent(MainActivity.this, TelemetryFileServiceImpl.class);
                         stopService(stopTeleFileIntent);
                         MainActivity.this.finish();
-                        System.exit(0);
                     }
                 })
                 .setNegativeButton("No", null)

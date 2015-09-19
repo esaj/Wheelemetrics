@@ -67,14 +67,14 @@ public class Preferences
         return preferences;
     }
 
-    public static void addPreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener)
+    public static void addPreferenceChangeListener(Context context, SharedPreferences.OnSharedPreferenceChangeListener listener)
     {
-        preferences.registerOnSharedPreferenceChangeListener(listener);
+        getPreferences(context).registerOnSharedPreferenceChangeListener(listener);
     }
 
-    public static void removePreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener)
+    public static void removePreferenceChangeListener(Context context, SharedPreferences.OnSharedPreferenceChangeListener listener)
     {
-        preferences.unregisterOnSharedPreferenceChangeListener(listener);
+        getPreferences(context).unregisterOnSharedPreferenceChangeListener(listener);
     }
 
     public static Double[] getVibrationWarningLevels()

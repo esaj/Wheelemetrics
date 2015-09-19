@@ -31,13 +31,6 @@ public interface TelemetryFileService
 
     /**
      * Adds a log entry to file
-     * @param logEntry      Log entry to write
-     * @param binary        If true, writes binary data, otherwise writes the given String as-is
-     */
-    void addLogEntry(LoggableData logEntry, boolean binary);
-
-    /**
-     * Adds a log entry to file
      * @param data  Log entry to add
      */
     void addLogEntry(LoggableData data);

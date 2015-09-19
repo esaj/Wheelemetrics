@@ -10,13 +10,14 @@ import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.github.esaj.wheelemetrics.Preferences;
+import com.github.esaj.wheelemetrics.bluetooth.Constants;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import com.github.esaj.wheelemetrics.Preferences;
 import test.ej.wheelemetricsproto.R;
-import com.github.esaj.wheelemetrics.bluetooth.Constants;
 
 /**
  * @author esaj
@@ -174,7 +175,7 @@ public class WarningVibratorService extends Service
     {
         this.vibrator = (Vibrator)this.getSystemService(Context.VIBRATOR_SERVICE);
 
-        Preferences.addPreferenceChangeListener(preferenceChangeListener);
+        Preferences.addPreferenceChangeListener(getApplicationContext(), preferenceChangeListener);
 
         Double[] values = Preferences.getVibrationWarningLevels();
         setWarningLevels(Arrays.asList(values));

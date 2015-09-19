@@ -155,6 +155,9 @@ public class TelemetryFileServiceImpl extends Service implements TelemetryFileSe
 
             //This is needed so the file updates as visible on some PCs...
             MediaScannerConnection.scanFile(this, new String[]{finalFile.getAbsolutePath()}, null, null);
+
+            currentFile = null;
+
         } catch(Exception e)
         {
             Log.e(TAG, "Failure while finalizing file", e);
@@ -162,30 +165,13 @@ public class TelemetryFileServiceImpl extends Service implements TelemetryFileSe
     }
 
     @Override
-    public void addLogEntry(LoggableData logEntry, boolean binary)
-    {
-        if(writeThread != null && writeThread.isAlive())
-        {
-            try
-            {
-                if(!binary)
-                {
-                    writeThread.write(logEntry);
-                }
-                else
-                {
-                    //TODO: Binary data
-                }
-            } catch(Exception e)
-            {
-                Log.w(TAG, "Exception handling log entry, invalid data?", e);
-            }
-        }
-    }
-
-    @Override
     public void addLogEntry(LoggableData data)
     {
+        if(currentFile == null)
+        {
+            return;
+        }
+
         if(writeThread != null && writeThread.isAlive())
         {
             try

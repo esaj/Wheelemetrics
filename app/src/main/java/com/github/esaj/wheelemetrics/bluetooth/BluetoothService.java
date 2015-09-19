@@ -102,6 +102,11 @@ public class BluetoothService extends Service
     @Override
     public void onDestroy()
     {
+        for(BluetoothObserver observer : observers)
+        {
+            unregisterObserver(observer);
+        }
+
         this.observers.clear();
         Log.i(TAG, "Shutting down BluetoothService");
         cancelThreads();
@@ -126,8 +131,15 @@ public class BluetoothService extends Service
      */
     public void registerObserver(BluetoothObserver observer)
     {
-        this.observers.add(observer);
-        observer.onRegistered(this);
+        try
+        {
+            observer.onRegistered(this);
+            this.observers.add(observer);
+        }
+        catch(Exception e)
+        {
+            Log.w(TAG, "Observer " + observer.getClass().getSimpleName() + " threw on registering, observer is NOT registered", e);
+        }
     }
 
     /**
@@ -136,8 +148,15 @@ public class BluetoothService extends Service
      */
     public void unregisterObserver(BluetoothObserver observer)
     {
-        this.observers.remove(observer);
-        observer.onUnregistered(this);
+        try
+        {
+            this.observers.remove(observer);
+            observer.onUnregistered(this);
+        }
+        catch(Exception e)
+        {
+            Log.w(TAG, "Observer " + observer.getClass().getSimpleName() + " threw on unregistering, observer IS unregistered", e);
+        }
     }
 
     /**

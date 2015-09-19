@@ -25,6 +25,11 @@ public class RetryOnConnectionLossBluetoothObserver extends BluetoothObserverAda
         this.service = bluetoothService;
     }
 
+    public void onUnregistered(BluetoothService bluetoothService)
+    {
+        this.service = null;
+    }
+
     @Override
     public void connectionOpened(BluetoothSocket socket, BluetoothDevice device, boolean secure)
     {
@@ -36,6 +41,12 @@ public class RetryOnConnectionLossBluetoothObserver extends BluetoothObserverAda
     @Override
     public void connectionLost(BluetoothDevice device)
     {
+        if(service == null)
+        {
+            Log.w(TAG, "No BluetoothService, bailing out (no retry)");
+            return;
+        }
+
         if(retryCount > MAX_RETRIES)
         {
             Log.w(TAG, "Failed to reconnect to device after " + MAX_RETRIES + " retries");
@@ -51,6 +62,12 @@ public class RetryOnConnectionLossBluetoothObserver extends BluetoothObserverAda
     @Override
     public void connectionFailed(BluetoothDevice device)
     {
+        if(service == null)
+        {
+            Log.w(TAG, "No BluetoothService, bailing out (no retry)");
+            return;
+        }
+
         if(retryCount > 0)
         {
             //Retry on failed reconnection

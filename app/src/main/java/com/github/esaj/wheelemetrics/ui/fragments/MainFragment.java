@@ -166,6 +166,8 @@ public class MainFragment extends Fragment
             bluetoothService.stop();
         }
         context.unbindService(bluetoothServiceConnection);
+        Intent stopBtIntent = new Intent(getActivity(), BluetoothService.class);
+        getActivity().stopService(stopBtIntent);
     }
 
     @Override
