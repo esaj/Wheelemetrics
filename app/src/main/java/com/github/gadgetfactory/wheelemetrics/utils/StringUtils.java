@@ -20,8 +20,21 @@ public class StringUtils
      */
     public static String getStringFromFixedPoint(int value, int decimals)
     {
-        char[] numberStr = Integer.toString(value).toCharArray();
         StringBuilder str = new StringBuilder(8);
+
+        char[] numberStr = null;
+
+        if(value < 0)
+        {
+            //Special handling for minus sign, so that values like  -0.12 don't become "-.12"
+            str.append("-");
+            numberStr = Integer.toString(-value).toCharArray();
+        }
+        else
+        {
+            numberStr = Integer.toString(value).toCharArray();
+        }
+
 
         if(numberStr.length <= decimals)
         {
