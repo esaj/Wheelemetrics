@@ -17,7 +17,6 @@ import com.github.esaj.wheelemetrics.data.LoggableData;
 import com.github.esaj.wheelemetrics.protocol.LoggableDataPublisherCallback;
 import com.github.esaj.wheelemetrics.protocol.ProtocolAutodetectionLogic;
 import com.github.esaj.wheelemetrics.protocol.codec.ProtocolDataRelay;
-import com.github.esaj.wheelemetrics.warning.SpeedDataReceiver;
 import com.github.esaj.wheelemetrics.warning.WarningVibratorService;
 
 import java.io.IOException;
@@ -639,12 +638,10 @@ public class BluetoothService extends Service
                     {
                         //Full packet received, send forwards
                         Intent speedDataIntent = new Intent(Constants.SPEED_DATA);
-                        speedDataIntent.setClass(getApplicationContext(), SpeedDataReceiver.class);
                         speedDataIntent.putExtra(Constants.SPEED_DATA, data.getSpeed());
                         getApplicationContext().sendBroadcast(speedDataIntent);
 
                         Intent dataIntent = new Intent(Constants.MESSAGE_STRING_LOGGABLEDATA);
-                        dataIntent.setClass(getApplicationContext(), LoggableDataReceiver.class);
                         dataIntent.putExtra(Constants.MESSAGE_STRING_LOGGABLEDATA, data.getLogEntry());
                         getApplicationContext().sendBroadcast(dataIntent);
 

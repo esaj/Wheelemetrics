@@ -44,5 +44,5 @@ public interface Constants
     public static final String SPEED_DATA = "wheelemetrics_spd";
 
     //Loggable data
-    public static final String MESSAGE_STRING_LOGGABLEDATA = "logdata";
+    public static final String MESSAGE_STRING_LOGGABLEDATA = "wheelemetrics_logdata";
 }

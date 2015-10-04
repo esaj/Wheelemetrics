@@ -43,11 +43,17 @@
         <service android:name="com.github.esaj.wheelemetrics.data.record.TelemetryFileServiceImpl"
                  android:exported="false"/>
 
-        <receiver android:name="com.github.esaj.wheelemetrics.warning.SpeedDataReceiver"
-                  android:exported="false"/>
+        <receiver android:name="com.github.esaj.wheelemetrics.warning.SpeedDataReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="wheelemetrics_spd"/>
+            </intent-filter>
+        </receiver>
 
-        <receiver android:name="com.github.esaj.wheelemetrics.bluetooth.LoggableDataReceiver"
-                  android:exported="false"/>
+        <receiver android:name="com.github.esaj.wheelemetrics.bluetooth.LoggableDataReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="wheelemetrics_logdata"/>
+            </intent-filter>
+        </receiver>
 
     </application>
 
