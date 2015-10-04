@@ -7,6 +7,7 @@ import java.io.IOException;
 
 /**
  * Simple service for logging data into a file
+ * @author esaj
  */
 public interface TelemetryFileService
 {

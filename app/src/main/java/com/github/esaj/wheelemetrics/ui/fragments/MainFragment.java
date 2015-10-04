@@ -103,7 +103,6 @@ public class MainFragment extends Fragment
             bluetoothService = btBinder.getService();
             bluetoothService.setHandler(handler);
 
-            //TODO: FIXME: Selecting different BluetoothObserver for other than Gotway
             try
             {
                 bluetoothService.registerObserver(new UIBackgroundColorWarningBluetoothObserver(MainFragment.this.getActivity(), mainView));
@@ -161,13 +160,22 @@ public class MainFragment extends Fragment
     public void onDestroy()
     {
         super.onDestroy();
+        detachBluetooth();
+    }
+
+    public void detachBluetooth()
+    {
         if(bluetoothService != null)
         {
             bluetoothService.stop();
+            bluetoothService = null;
         }
-        context.unbindService(bluetoothServiceConnection);
-        Intent stopBtIntent = new Intent(getActivity(), BluetoothService.class);
-        getActivity().stopService(stopBtIntent);
+
+        if(bluetoothServiceConnection != null)
+        {
+            context.unbindService(bluetoothServiceConnection);
+            bluetoothServiceConnection = null;
+        }
     }
 
     @Override

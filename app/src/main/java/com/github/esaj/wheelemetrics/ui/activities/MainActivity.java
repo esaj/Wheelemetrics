@@ -82,6 +82,8 @@ public class MainActivity extends FragmentActivity
                         transaction.remove(warningSettingsFragment);
                         transaction.commit();
 
+                        mainFragment.detachBluetooth();
+
                         Intent stopBtIntent = new Intent(MainActivity.this, BluetoothService.class);
                         stopService(stopBtIntent);
 

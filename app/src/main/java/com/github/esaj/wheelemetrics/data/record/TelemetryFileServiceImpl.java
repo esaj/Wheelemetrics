@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- *
+ * @author esaj
  */
 public class TelemetryFileServiceImpl extends Service implements TelemetryFileService
 {
@@ -31,6 +31,8 @@ public class TelemetryFileServiceImpl extends Service implements TelemetryFileSe
     private File currentFile;
 
     private WriteThread writeThread;
+
+    private boolean isShuttingDown = false;
 
     public class TelemetryFileServiceBinder extends Binder
     {
@@ -73,6 +75,7 @@ public class TelemetryFileServiceImpl extends Service implements TelemetryFileSe
     @Override
     public void onDestroy()
     {
+        isShuttingDown = true;
         finalizeFile(getCurrentFile());
         stopSelf();
     }
@@ -167,7 +170,7 @@ public class TelemetryFileServiceImpl extends Service implements TelemetryFileSe
     @Override
     public void addLogEntry(LoggableData data)
     {
-        if(currentFile == null)
+        if(currentFile == null || isShuttingDown)
         {
             return;
         }

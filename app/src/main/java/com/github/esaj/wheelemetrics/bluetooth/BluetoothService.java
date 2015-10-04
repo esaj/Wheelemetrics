@@ -47,6 +47,8 @@ public class BluetoothService extends Service
     private BluetoothDevice device;
     private boolean isSecure;
 
+    private volatile boolean isShuttingDown = false;
+
     private ProtocolAutodetectionLogic autodetectionLogic = new ProtocolAutodetectionLogic();
 
     public class BluetoothBinder extends Binder
@@ -101,6 +103,8 @@ public class BluetoothService extends Service
     @Override
     public void onDestroy()
     {
+        isShuttingDown = true;
+
         for(BluetoothObserver observer : observers)
         {
             unregisterObserver(observer);
@@ -185,12 +189,8 @@ public class BluetoothService extends Service
      */
     public synchronized void start()
     {
-        //TODO: Is this even needed anymore
         Log.d(TAG, "Service starting/resetting");
-
-        // Cancel any thread attempting to make a connection
         cancelThreads();
-
         setState(State.NOT_CONNECTED);
     }
 
@@ -275,9 +275,12 @@ public class BluetoothService extends Service
 
     private void sendVibrateIntent(long[] vibrateData)
     {
-        Intent vibrateIntent = new Intent(this, WarningVibratorService.class);
-        vibrateIntent.putExtra(WarningVibratorService.VIBRATE_DATA, vibrateData);
-        startService(vibrateIntent);
+        if(!isShuttingDown)
+        {
+            Intent vibrateIntent = new Intent(this, WarningVibratorService.class);
+            vibrateIntent.putExtra(WarningVibratorService.VIBRATE_DATA, vibrateData);
+            startService(vibrateIntent);
+        }
     }
 
     private void cancelThreads()
@@ -636,16 +639,19 @@ public class BluetoothService extends Service
                     @Override
                     public void publishLoggableData(LoggableData data)
                     {
-                        //Full packet received, send forwards
-                        Intent speedDataIntent = new Intent(Constants.SPEED_DATA);
-                        speedDataIntent.putExtra(Constants.SPEED_DATA, data.getSpeed());
-                        getApplicationContext().sendBroadcast(speedDataIntent);
+                        if(!isShuttingDown)
+                        {
+                            //Full packet received, send forwards
+                            Intent speedDataIntent = new Intent(Constants.SPEED_DATA);
+                            speedDataIntent.putExtra(Constants.SPEED_DATA, data.getSpeed());
+                            getApplicationContext().sendBroadcast(speedDataIntent);
 
-                        Intent dataIntent = new Intent(Constants.MESSAGE_STRING_LOGGABLEDATA);
-                        dataIntent.putExtra(Constants.MESSAGE_STRING_LOGGABLEDATA, data.getLogEntry());
-                        getApplicationContext().sendBroadcast(dataIntent);
+                            Intent dataIntent = new Intent(Constants.MESSAGE_STRING_LOGGABLEDATA);
+                            dataIntent.putExtra(Constants.MESSAGE_STRING_LOGGABLEDATA, data.getLogEntry());
+                            getApplicationContext().sendBroadcast(dataIntent);
 
-                        handler.obtainMessage(Constants.MESSAGE_DATA_READ, data).sendToTarget();
+                            handler.obtainMessage(Constants.MESSAGE_DATA_READ, data).sendToTarget();
+                        }
                     }
                 });
 
@@ -684,9 +690,12 @@ public class BluetoothService extends Service
                 }
                 catch(Exception e)
                 {
-                    Log.e(TAG, "disconnected", e);
-                    setState(BluetoothService.State.NOT_CONNECTED);
-                    connectionLost(device);
+                    if(!isShuttingDown)
+                    {
+                        Log.e(TAG, "disconnected", e);
+                        setState(BluetoothService.State.NOT_CONNECTED);
+                        connectionLost(device);
+                    }
                     break;
                 }
             }
