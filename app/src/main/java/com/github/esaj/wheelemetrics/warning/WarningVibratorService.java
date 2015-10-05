@@ -255,7 +255,7 @@ public class WarningVibratorService extends Service
                 }
                 else if(warningLevel == 1)
                 {
-                    if(!warning2.isPlaying() || (System.currentTimeMillis() - warning1StartedTime > 490))
+                    if(!warning2.isPlaying() || (System.currentTimeMillis() - warning2StartedTime > 490))
                     {
                         warning2.start();
                         warning2StartedTime = System.currentTimeMillis();
