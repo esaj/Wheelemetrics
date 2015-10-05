@@ -272,13 +272,20 @@ public class WarningVibratorService extends Service
 
     private void stopAudio()
     {
-        if(warning1.isPlaying())
+        try
         {
-            warning1.stop();
+            if(warning1.isPlaying())
+            {
+                warning1.stop();
+            }
+            if(warning2.isPlaying())
+            {
+                warning2.stop();
+            }
         }
-        if(warning2.isPlaying())
+        catch(Exception e)
         {
-            warning2.stop();
+            Log.w(TAG, "Mediaplayer threw an exception", e);
         }
     }
 }
