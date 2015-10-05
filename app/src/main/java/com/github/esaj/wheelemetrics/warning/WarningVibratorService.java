@@ -34,6 +34,10 @@ public class WarningVibratorService extends Service
     private MediaPlayer warning1;
     private MediaPlayer warning2;
 
+    //Bug fix: MediaPlayer.isPlaying sometimes keep returning true even when the sound is no longer playing
+    private long warning1StartedTime;
+    private long warning2StartedTime;
+
     private int currentWarningLevel = Integer.MIN_VALUE;
 
     private double[] warningLevels = null;
@@ -208,16 +212,18 @@ public class WarningVibratorService extends Service
         {
             if(warningLevel == 0)
             {
-                if(!warning1.isPlaying())
+                if(!warning1.isPlaying() || (System.currentTimeMillis() - warning1StartedTime > 100))
                 {
                     warning1.start();
+                    warning1StartedTime = System.currentTimeMillis();
                 }
             }
             else if(warningLevel == 1)
             {
-                if(!warning2.isPlaying())
+                if(!warning2.isPlaying() || (System.currentTimeMillis() - warning1StartedTime > 490))
                 {
                     warning2.start();
+                    warning2StartedTime = System.currentTimeMillis();
                 }
             }
         }
