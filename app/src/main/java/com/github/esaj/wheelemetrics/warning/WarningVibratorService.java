@@ -207,27 +207,6 @@ public class WarningVibratorService extends Service
             }
         }
 
-        //TODO: FIXME: Testing code
-        if(audio)
-        {
-            if(warningLevel == 0)
-            {
-                if(!warning1.isPlaying() || (System.currentTimeMillis() - warning1StartedTime > 100))
-                {
-                    warning1.start();
-                    warning1StartedTime = System.currentTimeMillis();
-                }
-            }
-            else if(warningLevel == 1)
-            {
-                if(!warning2.isPlaying() || (System.currentTimeMillis() - warning1StartedTime > 490))
-                {
-                    warning2.start();
-                    warning2StartedTime = System.currentTimeMillis();
-                }
-            }
-        }
-
         if(warningLevel != currentWarningLevel)
         {
             //Log.d(TAG, "SPEED " + speed + ", LEVEL CHANGE TO : " + warningLevel + ", current: " + currentWarningLevel + ", level 0: " + warningLevels[0] + ", level 1: " + warningLevels[1]);
@@ -261,6 +240,34 @@ public class WarningVibratorService extends Service
                 }
             }
         }
+
+        if(audio)
+        {
+            try
+            {
+                if(warningLevel == 0)
+                {
+                    if(!warning1.isPlaying() || (System.currentTimeMillis() - warning1StartedTime > 100))
+                    {
+                        warning1.start();
+                        warning1StartedTime = System.currentTimeMillis();
+                    }
+                }
+                else if(warningLevel == 1)
+                {
+                    if(!warning2.isPlaying() || (System.currentTimeMillis() - warning1StartedTime > 490))
+                    {
+                        warning2.start();
+                        warning2StartedTime = System.currentTimeMillis();
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                Log.w(TAG, "Mediaplayer threw an exception", e);
+            }
+        }
+
     }
 
     private void stopAudio()
