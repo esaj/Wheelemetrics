@@ -45,10 +45,11 @@
     <string name="insecure_connect">Connect a device - Insecure</string>
 
     <!-- Warning settings -->
-    <string name="warning_setting_1">First speed warning (km/h)</string>
-    <string name="warning_setting_2">Second speed warning (km/h)</string>
-    <string name="enable_warnings">Enable vibration</string>
-    <string name="enable_audio_warnings">Enable sounds</string>
+    <string name="warning_setting_1">1st speed warning (km/h)</string>
+    <string name="warning_setting_2">2nd speed warning (km/h)</string>
+    <string name="enable_warnings">Vibration</string>
+    <string name="enable_audio_warnings">Sounds</string>
+    <string name="enable_audio_pitch">Pitch</string>
 
     <!-- Main menu buttons -->
     <string name="connect_button">Connect</string>

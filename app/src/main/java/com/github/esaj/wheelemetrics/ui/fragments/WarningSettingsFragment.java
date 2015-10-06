@@ -10,11 +10,12 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.NumberPicker;
 
+import com.github.esaj.wheelemetrics.Preferences;
+import com.github.esaj.wheelemetrics.ui.misc.WarningSpeedNumberPicker;
+
 import java.util.Arrays;
 
-import com.github.esaj.wheelemetrics.Preferences;
 import test.ej.wheelemetricsproto.R;
-import com.github.esaj.wheelemetrics.ui.misc.WarningSpeedNumberPicker;
 
 /**
  * @author esaj
@@ -24,6 +25,7 @@ public class WarningSettingsFragment extends Fragment
     private WarningSpeedNumberPicker[] warningPickers = new WarningSpeedNumberPicker[2];
     private CheckBox warningsEnabledCheckBox;
     private CheckBox warningsAudioEnabledCheckBox;
+    private CheckBox warningsAudioPitchCheckBox;
 
     private class TwoDigitNumberPickerFormatter implements NumberPicker.Formatter
     {
@@ -102,6 +104,17 @@ public class WarningSettingsFragment extends Fragment
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
                 Preferences.storeAudioWarningEnabled(isChecked);
+            }
+        });
+
+        warningsAudioPitchCheckBox = (CheckBox)view.findViewById(R.id.checkbox_audio_pitch_enabled);
+        warningsAudioPitchCheckBox.setChecked(Preferences.isAudioPitchEnabled());
+        warningsAudioPitchCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                Preferences.storeAudioPitchEnabled(isChecked);
             }
         });
 

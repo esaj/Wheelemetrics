@@ -62,5 +62,14 @@
             style="@style/Widget.MediumMessage"
             android:checked="true"
             android:textColor="#FF00FF00"/>
+
+        <CheckBox
+            android:id="@+id/checkbox_audio_pitch_enabled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enable_audio_pitch"
+            style="@style/Widget.MediumMessage"
+            android:checked="true"
+            android:textColor="#FF00FF00"/>
     </LinearLayout>
 </LinearLayout>

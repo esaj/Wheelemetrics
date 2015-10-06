@@ -23,6 +23,7 @@ import com.github.esaj.wheelemetrics.data.record.TelemetryFileServiceImpl;
 import com.github.esaj.wheelemetrics.ui.fragments.MainFragment;
 import com.github.esaj.wheelemetrics.ui.fragments.WarningSettingsFragment;
 import com.github.esaj.wheelemetrics.ui.misc.RecordButtonClickListener;
+import com.github.esaj.wheelemetrics.utils.ThreadUtils;
 import com.github.esaj.wheelemetrics.warning.WarningVibratorService;
 
 import test.ej.wheelemetricsproto.R;
@@ -87,13 +88,16 @@ public class MainActivity extends FragmentActivity
                         Intent stopBtIntent = new Intent(MainActivity.this, BluetoothService.class);
                         stopService(stopBtIntent);
 
-                        Intent stopVibrationIntent = new Intent(MainActivity.this, WarningVibratorService.class);
-                        stopService(stopVibrationIntent);
+                        //Give the threads a moment to die off
+                        ThreadUtils.sleepIgnoringInterrupt(2000);
 
                         unbindService(telemetryFileServiceConnection);
                         Intent stopTeleFileIntent = new Intent(MainActivity.this, TelemetryFileServiceImpl.class);
                         stopService(stopTeleFileIntent);
                         MainActivity.this.finish();
+
+                        Intent stopVibrationIntent = new Intent(MainActivity.this, WarningVibratorService.class);
+                        stopService(stopVibrationIntent);
                     }
                 })
                 .setNegativeButton("No", null)

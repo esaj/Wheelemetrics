@@ -18,28 +18,28 @@ public class BinaryUtils
     public static void intTo32bitLE(int value, byte[] data, int offset)
     {
         data[0 + offset] = (byte)((value & 0x000000FF));
-        data[1 + offset] = (byte)((value & 0x0000FF00) >> 8);
-        data[2 + offset] = (byte)((value & 0x00FF0000) >> 16);
-        data[3 + offset] = (byte)((value & 0xFF000000) >> 24);
+        data[1 + offset] = (byte)((value & 0x0000FF00) >>> 8);
+        data[2 + offset] = (byte)((value & 0x00FF0000) >>> 16);
+        data[3 + offset] = (byte)((value & 0xFF000000) >>> 24);
     }
 
     public static void intTo32bitBE(int value, byte[] data, int offset)
     {
-        data[0 + offset] = (byte)((value & 0xFF000000) >> 24);
-        data[1 + offset] = (byte)((value & 0x00FF0000) >> 16);
-        data[2 + offset] = (byte)((value & 0x0000FF00) >> 8);
+        data[0 + offset] = (byte)((value & 0xFF000000) >>> 24);
+        data[1 + offset] = (byte)((value & 0x00FF0000) >>> 16);
+        data[2 + offset] = (byte)((value & 0x0000FF00) >>> 8);
         data[3 + offset] = (byte)((value & 0x000000FF));
     }
 
     public static void shortTo16bitLE(short value, byte[] data, int offset)
     {
         data[0 + offset] = (byte)((value & 0x00FF));
-        data[1 + offset] = (byte)((value & 0xFF00) >> 8);
+        data[1 + offset] = (byte)((value & 0xFF00) >>> 8);
     }
 
     public static void shortTo16bitBE(short value, byte[] data, int offset)
     {
-        data[0 + offset] = (byte)((value & 0xFF00) >> 8);
+        data[0 + offset] = (byte)((value & 0xFF00) >>> 8);
         data[1 + offset] = (byte)((value & 0x00FF));
     }
 

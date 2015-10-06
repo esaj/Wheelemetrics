@@ -4,7 +4,8 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
@@ -15,7 +16,9 @@ import com.github.esaj.wheelemetrics.bluetooth.Constants;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import test.ej.wheelemetricsproto.R;
 
@@ -31,12 +34,10 @@ public class WarningVibratorService extends Service
 
     private Vibrator vibrator;
 
-    private MediaPlayer warning1;
-    private MediaPlayer warning2;
-
-    //Bug fix: MediaPlayer.isPlaying sometimes keep returning true even when the sound is no longer playing
-    private long warning1StartedTime;
-    private long warning2StartedTime;
+    private Map<Integer, Integer> warningSounds = new HashMap<Integer, Integer>(2);
+    private SoundPool soundPool;
+    private Integer streamId = null;
+    private long lastSoundStartTime = 0;
 
     private int currentWarningLevel = Integer.MIN_VALUE;
 
@@ -50,6 +51,7 @@ public class WarningVibratorService extends Service
 
     private boolean vibrationEnabled = true;
     private boolean audio = true;
+    private boolean pitchControl = false;
 
     @Nullable
     @Override
@@ -64,8 +66,10 @@ public class WarningVibratorService extends Service
         super.onCreate();
         setUp();
 
-        warning1 = MediaPlayer.create(getApplicationContext(), R.raw.annoy1);
-        warning2 = MediaPlayer.create(getApplicationContext(), R.raw.annoy2);
+        //soundPool = new SoundPool.Builder().setMaxStreams(1).build(); //Not working on older devices (Builder does not exist)
+        soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        warningSounds.put(0, soundPool.load(getApplicationContext(), R.raw.annoy1, 1));
+        warningSounds.put(1, soundPool.load(getApplicationContext(), R.raw.annoy2, 1));
     }
 
     @Override
@@ -74,8 +78,7 @@ public class WarningVibratorService extends Service
         Log.i(TAG, "Stopping vibration warning service");
         stopAudio();
         stopVibration();
-        warning1.release();
-        warning2.release();
+        soundPool.release();
         stopSelf();
     }
 
@@ -109,6 +112,12 @@ public class WarningVibratorService extends Service
                 }
                 currentWarningLevel = -1;
             }
+            else if(Preferences.AUDIO_PITCH_ENABLED.equals(key))
+            {
+                pitchControl = Preferences.isAudioPitchEnabled();
+            }
+
+
         }
     }
 
@@ -189,9 +198,9 @@ public class WarningVibratorService extends Service
     private void checkSpeedWarning(double speed)
     {
         int warningLevel = -1;
+        boolean warningLevelChanged = false;
 
         //Log.d(TAG, "SPEED DATA: " + speed);
-
 
         //Warn on motor turning either way
         speed = Math.abs(speed);
@@ -211,6 +220,7 @@ public class WarningVibratorService extends Service
         {
             //Log.d(TAG, "SPEED " + speed + ", LEVEL CHANGE TO : " + warningLevel + ", current: " + currentWarningLevel + ", level 0: " + warningLevels[0] + ", level 1: " + warningLevels[1]);
             currentWarningLevel = warningLevel;
+            warningLevelChanged = true;
 
             if(warningLevel < 0)
             {
@@ -241,30 +251,50 @@ public class WarningVibratorService extends Service
             }
         }
 
-        if(audio)
+        if(warningLevel > -1)
         {
-            try
+            if(audio)
             {
-                if(warningLevel == 0)
+                try
                 {
-                    if(!warning1.isPlaying() || (System.currentTimeMillis() - warning1StartedTime > 100))
+                    if(warningLevelChanged || (System.currentTimeMillis() - lastSoundStartTime > 200))
                     {
-                        warning1.start();
-                        warning1StartedTime = System.currentTimeMillis();
+                        Integer soundId = warningSounds.get(warningLevel);
+                        if(soundId != null)
+                        {
+                            float pitch = 1.0f;
+
+                            if(pitchControl)
+                            {
+                                //Pitch-control
+                                pitch = (float)(speed / (warningLevels[warningLevel]));
+
+                                if(warningLevels.length > warningLevel + 1)
+                                {
+                                    double difference = warningLevels[warningLevel + 1] - warningLevels[warningLevel];
+                                    pitch = 1.0f + (float)(1.0 - ((warningLevels[warningLevel + 1] - speed) / difference));
+                                }
+
+                                //Sanity checks
+                                if(pitch > 2.0f)
+                                {
+                                    pitch = 2.0f;
+                                }
+                                else if(pitch < 1.0f)
+                                {
+                                    pitch = 1.0f;
+                                }
+                            }
+
+                            streamId = soundPool.play(soundId, 1.0f, 1.0f, 0, 0, pitch);
+                            lastSoundStartTime = System.currentTimeMillis();
+                        }
                     }
                 }
-                else if(warningLevel == 1)
+                catch(Exception e)
                 {
-                    if(!warning2.isPlaying() || (System.currentTimeMillis() - warning2StartedTime > 490))
-                    {
-                        warning2.start();
-                        warning2StartedTime = System.currentTimeMillis();
-                    }
+                    Log.w(TAG, "SoundPool threw an exception", e);
                 }
-            }
-            catch(Exception e)
-            {
-                Log.w(TAG, "Mediaplayer threw an exception", e);
             }
         }
 
@@ -274,18 +304,14 @@ public class WarningVibratorService extends Service
     {
         try
         {
-            if(warning1.isPlaying())
+            if(streamId != null)
             {
-                warning1.stop();
-            }
-            if(warning2.isPlaying())
-            {
-                warning2.stop();
+                soundPool.stop(streamId);
             }
         }
         catch(Exception e)
         {
-            Log.w(TAG, "Mediaplayer threw an exception", e);
+            Log.w(TAG, "SoundPool threw an exception", e);
         }
     }
 }

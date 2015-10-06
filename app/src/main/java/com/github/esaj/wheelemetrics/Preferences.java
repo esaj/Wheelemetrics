@@ -23,6 +23,7 @@ public class Preferences
     public static final String VIBRATION_ENABLED = "vibr";
     public static final String VIBRATION_WARNING_LEVELS = "vibrlevels";
     public static final String AUDIO_ENABLED = "audio";
+    public static final String AUDIO_PITCH_ENABLED = "pitch";
 
     private static final Set<String> DEFAULT_WARNING_LEVELS = new HashSet<String>();
 
@@ -120,6 +121,19 @@ public class Preferences
         editor.putBoolean(AUDIO_ENABLED, enabled);
         editor.apply();
     }
+
+    public static boolean isAudioPitchEnabled()
+    {
+        return preferences.getBoolean(AUDIO_PITCH_ENABLED, false);
+    }
+
+    public static void storeAudioPitchEnabled(boolean enabled)
+    {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(AUDIO_PITCH_ENABLED, enabled);
+        editor.apply();
+    }
+
     private static <T> T getValueFromString(String value, StringTransformer<T> transformer)
     {
         return transformer.transformFromString(value);

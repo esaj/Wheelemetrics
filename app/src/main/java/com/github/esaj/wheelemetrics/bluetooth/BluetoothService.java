@@ -291,11 +291,11 @@ public class BluetoothService extends Service
             try
             {
                 connectThread.cancel();
-                connectThread.join(5000);
+                connectThread.interrupt();
             }
-            catch(InterruptedException e)
+            catch(Exception e)
             {
-                Log.w(TAG, "Interrupted while waiting for connectThread to die", e);
+                Log.w(TAG, "Exception caught while killing connectThread", e);
             }
             finally
             {
@@ -308,11 +308,11 @@ public class BluetoothService extends Service
             try
             {
                 checkerThread.cancel();
-                checkerThread.join(500);
+                checkerThread.interrupt();
             }
-            catch(InterruptedException e)
+            catch(Exception e)
             {
-                //Nevermind
+                Log.w(TAG, "Exception caught while killing checkerThread", e);
             }
             finally
             {
@@ -327,11 +327,11 @@ public class BluetoothService extends Service
             try
             {
                 connectedThread.cancel();
-                connectedThread.join(5000);
+                checkerThread.interrupt();
             }
-            catch(InterruptedException e)
+            catch(Exception e)
             {
-                Log.w(TAG, "Interrupted while waiting for connectThread to die", e);
+                Log.w(TAG, "Exception caught while killing connectedThread", e);
             }
             finally
             {
