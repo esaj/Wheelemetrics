@@ -188,7 +188,7 @@ public class WarningVibratorService extends Service
     private void setUp()
     {
         this.vibrator = (Vibrator)this.getSystemService(Context.VIBRATOR_SERVICE);
-
+        stopVibration();
         Preferences.addPreferenceChangeListener(getApplicationContext(), preferenceChangeListener);
 
         Double[] values = Preferences.getVibrationWarningLevels();
