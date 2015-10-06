@@ -92,6 +92,7 @@ public class WarningVibratorService extends Service
             {
                 Double[] values = Preferences.getVibrationWarningLevels();
                 setWarningLevels(Arrays.asList(values));
+                stopVibration();
                 currentWarningLevel = -1;
             }
             else if(Preferences.VIBRATION_ENABLED.equals(key))
@@ -257,7 +258,7 @@ public class WarningVibratorService extends Service
             {
                 try
                 {
-                    if(warningLevelChanged || (System.currentTimeMillis() - lastSoundStartTime > 200))
+                    if(warningLevelChanged || (System.currentTimeMillis() - lastSoundStartTime > 100))
                     {
                         Integer soundId = warningSounds.get(warningLevel);
                         if(soundId != null)
