@@ -536,7 +536,7 @@ public class MainFragment extends Fragment
                                     }
                                     break;
                                 case 6:
-                                    value = data.getVoltage() * data.getCurrent();
+                                    value = data.getVoltage() * data.getCurrent() * Preferences.getCurrentCorrectionFactor();
                             }
 
                             main.graphControl.addDataPoint(main.graphIndex++, value, ((CheckBox)main.getView().findViewById(R.id.checkbox_scroll)).isChecked());
