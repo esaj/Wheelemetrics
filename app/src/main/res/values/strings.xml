@@ -51,9 +51,15 @@
     <string name="enable_audio_warnings">Sounds</string>
     <string name="enable_audio_pitch">Pitch</string>
 
+    <!-- Other settings -->
+    <string name="lock_orientation">Lock orientation</string>
+    <string name="imperial_units">Imperial units</string>
+    <string name="speed_correction_factor">Speed correction factor</string>
+    <string name="current_correction_factor">Current correction factor</string>
+
     <!-- Main menu buttons -->
     <string name="connect_button">Connect</string>
-    <string name="warnings_button">Speed Warnings</string>
+    <string name="warnings_button">Settings</string>
     <string name="graph_button">Graph view</string>
     <string name="record">Record</string>
     <string name="stop_record">Stop record</string>

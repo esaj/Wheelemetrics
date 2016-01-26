@@ -26,6 +26,7 @@ import com.github.esaj.wheelemetrics.ui.misc.RecordButtonClickListener;
 import com.github.esaj.wheelemetrics.utils.ThreadUtils;
 import com.github.esaj.wheelemetrics.warning.WarningVibratorService;
 
+import im.delight.android.baselib.Screen;
 import test.ej.wheelemetricsproto.R;
 
 /**
@@ -115,6 +116,16 @@ public class MainActivity extends FragmentActivity
 
         //Always keep the screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        if(Preferences.isLockOrientation())
+        {
+            Screen.lockOrientation(this);
+        }
+        else
+        {
+            //Screen.unlockOrientation(this);
+        }
+
 
         if(savedInstanceState == null)
         {

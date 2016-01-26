@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/warning_settings"
               android:orientation="vertical"
@@ -72,4 +73,58 @@
             android:checked="true"
             android:textColor="#FF00FF00"/>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/lock_orientation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lock_orientation"
+            style="@style/Widget.MediumMessage"
+            android:checked="true"
+            android:textColor="#FF00FF00"/>
+        <CheckBox
+            android:id="@+id/imperial_units"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/imperial_units"
+            style="@style/Widget.MediumMessage"
+            android:checked="true"
+            android:textColor="#FF00FF00"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            style="@style/Widget.MediumMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/speed_correction_factor"
+            android:layout_weight="1"
+            />
+
+        <view class="com.github.esaj.wheelemetrics.ui.misc.WarningSpeedNumberPicker"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/speed_correction_factor"/>
+
+        <TextView
+            style="@style/Widget.MediumMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/current_correction_factor"
+            android:layout_weight="1"
+            />
+
+        <view class="com.github.esaj.wheelemetrics.ui.misc.WarningSpeedNumberPicker"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/current_correction_factor"/>
+    </LinearLayout>
+
 </LinearLayout>

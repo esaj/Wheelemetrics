@@ -10,6 +10,11 @@ public class StringUtils
         //Do not instantiate
     }
 
+    public static String roundDoubleDecimals(double value, int decimals)
+    {
+        return String.format("%." + decimals + "f", value);
+    }
+
     /**
      * Creates a string representation of a fixed-point value, for example:
      * getStringFromFixedPoint(1234, 2) = "12.34"

@@ -33,11 +33,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.bluetoothchat.DeviceListActivity;
+import com.github.esaj.wheelemetrics.Preferences;
 import com.github.esaj.wheelemetrics.bluetooth.BluetoothService;
 import com.github.esaj.wheelemetrics.bluetooth.Constants;
 import com.github.esaj.wheelemetrics.bluetooth.UIBackgroundColorWarningBluetoothObserver;
 import com.github.esaj.wheelemetrics.data.LoggableData;
 import com.github.esaj.wheelemetrics.ui.graph.GraphDataControl;
+import com.github.esaj.wheelemetrics.utils.ConversionUtils;
+import com.github.esaj.wheelemetrics.utils.StringUtils;
 import com.jjoe64.graphview.GraphView;
 
 import java.lang.ref.WeakReference;
@@ -435,25 +438,58 @@ public class MainFragment extends Fragment
                     if(rootView != null)
                     {
                         TextView view = (TextView)rootView.findViewById(R.id.speed);
-                        view.setText(data.getSpeedString() + "km/h");
+
+                        if(Preferences.isImperialUnits())
+                        {
+                            String text = StringUtils.roundDoubleDecimals(ConversionUtils.kilometersToMiles(data.getSpeed() * Preferences.getSpeedCorrectionFactor()), 2);
+                            view.setText(text + "mph");
+                        }
+                        else
+                        {
+                            view.setText(StringUtils.roundDoubleDecimals(data.getSpeed() * Preferences.getSpeedCorrectionFactor(), 2) + "km/h");
+                        }
 
                         view = (TextView)rootView.findViewById(R.id.voltage);
                         view.setText(data.getVoltageString() + "V");
 
                         view = (TextView)rootView.findViewById(R.id.current);
-                        view.setText(data.getCurrentString() + "A");
+                        view.setText(StringUtils.roundDoubleDecimals(data.getCurrent() * Preferences.getCurrentCorrectionFactor(), 2) + "A");
 
                         view = (TextView)rootView.findViewById(R.id.mbtemp);
-                        view.setText(data.getTemperatureString() + "\u00B0 C");
+                        if(Preferences.isImperialUnits())
+                        {
+                            String text = StringUtils.roundDoubleDecimals(ConversionUtils.celsiusToFahrenheit(data.getTemperature()), 2);
+                            view.setText(text + "° F");
+                        }
+                        else
+                        {
+                            view.setText(data.getTemperatureString() + "\u00B0 C");
+                        }
 
                         view = (TextView)rootView.findViewById(R.id.power);
-                        view.setText((int)(data.getVoltage() * data.getCurrent()) + "W");
+                        view.setText((int)(data.getVoltage() * data.getCurrent() * Preferences.getCurrentCorrectionFactor()) + "W");
 
                         view = (TextView)rootView.findViewById(R.id.trip);
-                        view.setText(data.getTripString() + "km");
+                        if(Preferences.isImperialUnits())
+                        {
+                            String text = StringUtils.roundDoubleDecimals(ConversionUtils.kilometersToMiles(data.getTrip()), 3);
+                            view.setText(text + "mi");
+                        }
+                        else
+                        {
+                            view.setText(data.getTripString() + "km");
+                        }
 
                         view = (TextView)rootView.findViewById(R.id.odo);
-                        view.setText(data.getOdoString() + "km");
+                        if(Preferences.isImperialUnits())
+                        {
+                            String text = StringUtils.roundDoubleDecimals(ConversionUtils.kilometersToMiles(data.getOdo()), 2);
+                            view.setText(text + "mi");
+                        }
+                        else
+                        {
+                            view.setText(data.getOdoString() + "km");
+                        }
                     }
 
                     //Update graph, if possible
@@ -469,19 +505,35 @@ public class MainFragment extends Fragment
                                     value = data.getVoltage();
                                     break;
                                 case 1:
-                                    value = data.getSpeed();
+                                    value = data.getSpeed() * Preferences.getSpeedCorrectionFactor();
+                                    if(Preferences.isImperialUnits())
+                                    {
+                                        value = ConversionUtils.kilometersToMiles(value);
+                                    }
                                     break;
                                 case 2:
                                     value = data.getTrip();
+                                    if(Preferences.isImperialUnits())
+                                    {
+                                        value = ConversionUtils.kilometersToMiles(value);
+                                    }
                                     break;
                                 case 3:
-                                    value = data.getCurrent();
+                                    value = data.getCurrent() * Preferences.getCurrentCorrectionFactor();
                                     break;
                                 case 4:
                                     value = data.getTemperature();
+                                    if(Preferences.isImperialUnits())
+                                    {
+                                        value = ConversionUtils.celsiusToFahrenheit(value);
+                                    }
                                     break;
                                 case 5:
                                     value = data.getOdo();
+                                    if(Preferences.isImperialUnits())
+                                    {
+                                        value = ConversionUtils.kilometersToMiles(value);
+                                    }
                                     break;
                                 case 6:
                                     value = data.getVoltage() * data.getCurrent();

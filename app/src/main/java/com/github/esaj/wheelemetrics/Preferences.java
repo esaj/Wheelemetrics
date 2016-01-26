@@ -24,6 +24,11 @@ public class Preferences
     public static final String VIBRATION_WARNING_LEVELS = "vibrlevels";
     public static final String AUDIO_ENABLED = "audio";
     public static final String AUDIO_PITCH_ENABLED = "pitch";
+    public static final String LOCK_ORIENTATION = "lockOrient";
+    public static final String IMPERIAL_UNITS = "imperial";
+
+    public static final String SPEED_CORRECTION_FACTOR = "speedcorr";
+    public static final String CURRENT_CORRECTION_FACTOR = "currcorr";
 
     private static final Set<String> DEFAULT_WARNING_LEVELS = new HashSet<String>();
 
@@ -131,6 +136,54 @@ public class Preferences
     {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(AUDIO_PITCH_ENABLED, enabled);
+        editor.apply();
+    }
+
+    public static boolean isLockOrientation()
+    {
+        return preferences.getBoolean(LOCK_ORIENTATION, false);
+    }
+
+    public static void storeLockOrientation(boolean enabled)
+    {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(LOCK_ORIENTATION, enabled);
+        editor.apply();
+    }
+
+    public static boolean isImperialUnits()
+    {
+        return preferences.getBoolean(IMPERIAL_UNITS, false);
+    }
+
+    public static void storeImperialUnits(boolean enabled)
+    {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(IMPERIAL_UNITS, enabled);
+        editor.apply();
+    }
+
+    public static double getSpeedCorrectionFactor()
+    {
+        return (double)preferences.getFloat(SPEED_CORRECTION_FACTOR, 1.0f);
+    }
+
+    public static void storeSpeedCorrectionFactor(double corrFactor)
+    {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putFloat(SPEED_CORRECTION_FACTOR, (float)corrFactor);
+        editor.apply();
+    }
+
+    public static double getCurrentCorrectionFactor()
+    {
+        return (double)preferences.getFloat(CURRENT_CORRECTION_FACTOR, 1.0f);
+    }
+
+    public static void storeCurrentCorrectionFactor(double corrFactor)
+    {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putFloat(CURRENT_CORRECTION_FACTOR, (float)corrFactor);
         editor.apply();
     }
 
